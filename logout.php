@@ -8,6 +8,6 @@
     unset($_SESSION['pw']);
     echo $_SESSION['un'].$_SESSION['em'].$_SESSION['pw'];
     echo "<br><br><br><br><br><br><br><br><br><br><br><br><h2> Your account has <br><br>been logged out</h2>";
-    echo "<br><br><br><a href='landing.php'> back to main page</a>";
+    echo "<br><br><br><a href='index.php'> back to main page</a>";
 
 ?>

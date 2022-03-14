@@ -31,6 +31,10 @@ a{
     background-color: #c72d26;
     color:#eedddd;
 }
+.comment{
+    background-color:#4f7551;
+    color:#eedddd;
+}
 .login{
     font-size:0.7em;
 }
@@ -76,9 +80,9 @@ img.noborder{
 }
 .dotted{
     font-size:100%;
-    font-weight:0;
-    width:50%;
-    margin:auto;
+    font-weight:300;
+    width:30%;
+    margin:5px;
     border-radius:5px;
     border:1px dotted #3b5452;
     padding:20px;
@@ -92,7 +96,11 @@ div.user{
     border:1px dotted #3b5452;
     padding:30px;
 }
-.like .comment{
-    background-color: #e2c6c6;
-    color:#b98b8b;
+div.eachcomment{
+    font-weight:300px;
+    font-size:1.0em;
+}
+div.eachcomment a{
+    background:0;
+    text-decoration:underline;
 }

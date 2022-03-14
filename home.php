@@ -1,27 +1,22 @@
 <!DOCTYPE html>
 <head><link rel="stylesheet" href="style.css"></head><br><br>
-<nav>
-    <a href='user.php'> setting </a>
-    <a href='search.php'> search </a>
-    <a href='createpost.php'> upload </a>
-</nav>
-<h1> Home Page </h1>
 <?php
+    require('nav.php');
+    echo "<h1> Your Feed </h1>";
     $conn= new PDO('mysql:host=localhost; dbname=Insta', 'root', 'root');
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     session_start();
 
 
     if ($_GET['like']==1){
+        
         $addlikesql= "INSERT INTO `Likes` (post_id, liker_id) Values( ".$_GET['post'].','.$_GET['liker'].')';
-        #echo $addlikesql;
         $conn->exec($addlikesql);
-    }else if ($_GET['like']==0){
+    }else if ($_GET['like']==2){
+        echo 'test';
         $removelikesql="DELETE FROM `Likes` WHERE post_id LIKE ".$_GET['post']." AND liker_id LIKE ".$_GET['liker'];
-        #echo $removelikesql;
         $conn->exec($removelikesql);
     }
-
-
 
     $un= $_SESSION['un'];
     $search="SELECT * FROM `User` WHERE username LIKE '".$un."'";
@@ -53,34 +48,33 @@
         $date= $row['date'];
         $postid= $row['post_id'];
 
-        $search="SELECT * FROM `User` WHERE user_id LIKE '".$posterid."'";
-        $inside= $conn -> prepare($search);
-        $inside -> execute();
-        $account= $inside->fetch();
+        $postquery= $conn -> query("SELECT * FROM `User` WHERE user_id LIKE '".$posterid."'");
+        $account= $postquery->fetch();
         $postername=$account['username'];
 
-        $checklike='SELECT * FROM `Likes` WHERE post_id LIKE '.$postid.' AND liker_id LIKE '.$userid;
-        $fetchlike= $conn -> prepare($checklike);
-        $fetchlike -> execute();
-        $likerow = $fetchlike -> fetch();
-        #var_dump($likerow);
+        $checklikequery= $conn -> query('SELECT * FROM `Likes` WHERE post_id LIKE '.$postid.' AND liker_id LIKE '.$userid);
+        $likerow = $checklikequery -> fetch();
+
+        $commentquery= $conn -> query ('SELECT COUNT(*) FROM `Comment` WHERE post_id LIKE '.$postid);
+        $commentnum= $commentquery -> fetch();
+
 
         
         echo "<hr>
               <br><br>
                 <img src='pics/".$pic."'width='400'><br><br>
-                <a href='searchuser.php?un=$postername' >$postername</a><br><br>
+                <a href='userpost.php?un=$postername' >$postername</a><br><br>
                 <p class='content'>$content</p>
                 <p class='date'>$date</p><br>";
 
         if ($likerow){
-            echo "<a class='like' href='home.php?like=0&post=$postid&liker=$userid' class='like'>unlike</a>";
+            echo "<a class='like' href='home.php?like=2&post=$postid&liker=$userid' >unlike</a>";
         }
         else {
-            echo "<a class='like' href='home.php?like=1&post=$postid&liker=$userid' class='like'>like</a>";
+            echo "<a class='like' href='home.php?like=1&post=$postid&liker=$userid' >like</a>";
         }
         
-        echo "<a class='comment' href='comment.php'>comment</a>
+        echo "<a class='comment' href='comment.php?post=$postid&user=$userid'>$commentnum[0] comments</a>
                 <br><br>
                 <br><br>";
     }

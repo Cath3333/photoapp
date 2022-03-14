@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <head><link rel="stylesheet" href="style.css"></head>
-<nav>
-    <a href='landing.php'> Main </a>
-    <a href='signup.php'> Sign Up </a>
-    <a href='login.php'> Log In</a>
-</nav>
+<?php
+    require('landnav.php');
+?>
 <h1> You are Signing Up </h1>
 <form action='signuphandle.php' method='post'>
     <div> Username: </div>

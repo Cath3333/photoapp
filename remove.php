@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <head><link rel="stylesheet" href="style.css"></head><br><br>
-<nav>
-    <a href='user.php'> user home </a>
-    <a href='search.php'> search </a>
-    <a href='createpost.php'> upload </a>
-</nav>
+
 <?php
+    require('nav.php');
     try{
         $conn= new PDO('mysql:host=localhost; dbname=Insta', 'root', 'root');
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -15,4 +12,4 @@
     $conn->exec($sql);
     echo "User removed from list successfully!";
 ?>
-<br><a href='followlist.php'>Go Back</a>
+<br><br><a href='followlist.php'>Go Back</a>

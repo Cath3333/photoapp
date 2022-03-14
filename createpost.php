@@ -1,10 +1,9 @@
 <link rel="stylesheet" href="style.css">
 <br>
-<nav>
-    <a href='user.php'> back to user home </a>
-    <a href='personalposts.php'> my posts </a>
-    <a href='search.php'> search </a>
-</nav>
+<?php
+    require('nav.php');
+?>
+<a href='personalposts.php'> my posts </a>
 <h2> You are making a post </h2><br>
 <form action='createposthandle.php' method='post' enctype='multipart/form-data'>
     <p>Upload images: </p><br>

@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <head><link rel="stylesheet" href="style.css"></head><br><br>
-<nav>
-    <a href='user.php'> setting </a>
-    <a href='search.php'> search </a>
-    <a href='createpost.php'> upload </a>
-</nav>
-<h1> Posts that you liked </h1>
+
 <?php
+    require('nav.php');
+    echo "<h1> Posts that you liked </h1>";
     $conn= new PDO('mysql:host=localhost; dbname=Insta', 'root', 'root');
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 

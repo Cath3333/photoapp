@@ -1,12 +1,7 @@
 <!DOCTYPE html>
 <head><link rel="stylesheet" href="style.css"></head><br><br>
-<nav>
-    <a href='home.php'> home </a>
-    <a href='user.php'> setting </a>
-    <a href='search.php'> search </a>
-    <a href='createpost.php'> upload </a>
-</nav>
 <?php
+    require('nav.php');
     try{
         $conn= new PDO('mysql:host=localhost; dbname=Insta', 'root', 'root');
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -14,6 +9,7 @@
         }catch(PDOException $e){
             echo "Error: ". $e;
         }
+        
 
         session_start();
         $un= $_GET['un'];
@@ -38,22 +34,25 @@
         $st= $conn -> prepare($follow);
         $st -> execute();
         $followacc= $st->fetch();
+        //var_dump($followacc);
 
         echo "<br><br><img src='pics/".$profile."'width='150'><h2>".$un."'s posts</h2><br>";
-        if (is_null($followacc['user_id'])){
-            echo "<a href='followhandle.php?fol=0&target=$userid&user=$nowuserid'>follow</a>";
+        if ($followacc){
+            
+            echo "<a href='followhandle.php?fol=1&target=$userid&user=$nowuserid'>unfollow</a>";
         }
         else{
-            echo "<a href='followhandle.php?fol=1&target=$userid&user=$nowuserid'>unfollow</a>";
+            echo "<a href='followhandle.php?fol=0&target=$userid&user=$nowuserid'>follow</a>";
         }
         echo"<br><br><br><br><p class='dotted'>".$bio."</p><br><br><br>";
         
 
-        $result= $conn -> query("SELECT * FROM `Post` WHERE user_id=".$userid);
+        $result= $conn -> query("SELECT * FROM `Post` WHERE user_id=".$userid." ORDER by date DESC");
         while ($row= $result->fetch()){
             $content= $row["content"];
             $pic= $row["pic"];
             $date= $row['date'];
+            $postid= $row['post_id'];
             echo "<hr>
                  <br><br>
                  <img src='pics/".$pic."'width='400'><br><br>
@@ -63,6 +62,25 @@
                  //<a href='edit.php?id=$id'  id='edit'>edit</a>
                  //<a href='delete.php?id=$id'  id='delete'> delete </a>
                  //</div>
+            
+            $checklikequery= $conn -> query('SELECT * FROM `Likes` WHERE post_id LIKE '.$postid.' AND liker_id LIKE '.$userid);
+            $checklike= $checklikequery->fetch();
+
+            if ($checklike){
+                echo "<a class='like' href='home.php?like=2&post=$postid&liker=$userid' >unlike</a>";
+            }
+            else {
+                echo "<a class='like' href='home.php?like=1&post=$postid&liker=$userid' >like</a>";
+            }
+
+            $commentquery= $conn -> query ('SELECT COUNT(*) FROM `Comment` WHERE post_id LIKE '.$postid);
+            $commentnum= $commentquery -> fetch();
+            
+            echo "<a class='comment' href='comment.php?post=$postid&user=$userid'>$commentnum[0] comments</a>
+                    <br><br>
+                    <br><br>";
+    
+            
         }
         
         ?>

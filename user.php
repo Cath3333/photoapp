@@ -4,13 +4,13 @@
 <img class='noborder' src='pics/usertop.png' alt='tomato' width='300' height="200" >
 <?php
     session_start();
-    echo "<h1>Welcome,<br>".$_SESSION['un']." :)</h1>";
+    $un= $_SESSION['un'];
+    echo "<h1>Welcome,<br>".$un." :)</h1>";
     //echo "<a href='profile.php'>Go to profile</a>";
+    require('nav.php');
 ?>
-<a href='home.php'> Home page </a>
-<a href='createpost.php'> Post Something</a>
-<a href='search.php'> Search Users</a><br>
-<br><br><a href='personalposts.php'> Your posts</a>
+
+<a href='userpost.php?un=<?php echo $un;?>'> Your posts</a>
 <a href='followlist.php'> Following & Followers</a>
 <a href='likelist.php'>Like list</a>
 <br><br><br><br><br><br>

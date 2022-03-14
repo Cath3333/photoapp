@@ -4,7 +4,6 @@
     $unsql= "SELECT * FROM `User` WHERE username LIKE '".$_POST['unem']."'";
     $emsql= "SELECT * FROM `User` WHERE email LIKE '".$_POST['unem']."'";
     session_start();
-    #print $unsql."<br>".$emsql;
     try{
         
         $conn= new PDO('mysql:host=localhost; dbname=Insta', 'root', 'root');
@@ -34,7 +33,7 @@
         }
         if($success==1){
             echo "<br><br><br><br><br><br><br><br><br><br><br><br><div><h2>Logged in successfully!</h2>";
-            echo "<br><br><br><a href='home.php' class='login'> Go to user profile</a>";
+            echo "<br><br><br><a href='home.php' class='login'> Home</a>";
         }
         else{
             echo "<br><br><br><br><br><br><br><br><br><br><br><br><h2>Unsuccessful login :( <h2>";

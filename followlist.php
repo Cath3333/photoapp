@@ -1,11 +1,7 @@
 <!DOCTYPE html>
 <head><link rel="stylesheet" href="style.css"></head>
-<nav>
-    <a href='user.php'> user home </a>
-    <a href='search.php'> search </a>
-    <a href='createpost.php'> upload </a>
-</nav>
 <?php
+    require('nav.php');
     try{
         $conn= new PDO('mysql:host=localhost; dbname=Insta', 'root', 'root');
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -14,8 +10,7 @@
             echo "Error: ". $e;
         }
 
-       // echo "<h1> You are<br> Viewing the Messages</h1>";
-        //echo"<br><a href='index.php'><h2> Back to Main Page </h2></a><br><br>";
+
         session_start();
         $un= $_SESSION['un'];
         $search="SELECT * FROM `User` WHERE username LIKE '".$un."'";
@@ -29,8 +24,11 @@
         $following='SELECT * FROM `Followers` WHERE follower_id LIKE '.$userid;
         $st= $conn -> prepare($following);
         $st -> execute();
+        $datafollowing= $st -> fetchAll();
+        //var_dump($datafollowing);
         
-        while($row= $st->fetch()){
+        foreach($datafollowing as $row){
+            
             $targetid= $row["following_id"];
 
             $display= 'SELECT * FROM `User` WHERE user_id LIKE '.$targetid;
@@ -51,8 +49,11 @@
         $follower= 'SELECT * FROM `Followers` WHERE following_id LIKE '.$userid;
         $st= $conn -> prepare($follower);
         $st -> execute();
+        $data= $st -> fetchAll();
 
-        while($row= $st->fetch()){
+
+        foreach ($data as $row){
+            
             $followerid= $row['follower_id'];
 
             $display= 'SELECT * FROM `User` WHERE user_id LIKE '.$followerid;

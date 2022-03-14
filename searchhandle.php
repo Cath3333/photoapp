@@ -1,13 +1,7 @@
 <!DOCTYPE html>
 <head><link rel="stylesheet" href="style.css"></head><br><br>
-<nav>
-    <a href='home.php'> home </a>
-    <a href='user.php'> setting </a>
-    <a href='search.php'> search </a>
-    <a href='createpost.php'> upload </a>
-</nav>
 <?php
-    
+    require('nav.php');
     try{
         $conn= new PDO('mysql:host=localhost; dbname=Insta', 'root', 'root');
 
@@ -28,7 +22,7 @@
         $email= $row["email"];
         $profile= $row['profile'];
         echo "<hr><br><br><img src='pics/$profile' width='150'><br><br><br>
-              <p><a href='searchuser.php?un=$name'>$name</a><br><br>
+              <p><a href='userpost.php?un=$name'>$name</a><br><br>
               $email</p><br><br>";
     }
     ?>
