@@ -1,36 +1,19 @@
-<!DOCTYPE html>
-<head><link rel="stylesheet" href="style.css"></head>
 <?php
+    header('Location: userpost.php');
     session_start();
+    require('database.php');
     $file= $_FILES['img']['name'];
-    $des= $_POST['des'];
-    try{
-        $conn= new PDO('mysql:host=localhost; dbname=Insta', 'root', 'root');
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $des= $_POST['description'];
+    
+    $un= $_SESSION['un'];
+    require('fetchuserid.php');
 
-        session_start();
-        $un= $_SESSION['un'];
-        $search="SELECT * FROM `User` WHERE username LIKE '".$un."'";
-        $st= $conn -> prepare($search);
-        $st -> execute();
-        $account= $st->fetch();
-        $userid= $account['user_id'];
-
-        $sql="INSERT INTO `Post` (user_id, content, pic) Values (".$userid.",'".$des."','".$file."')";
-        //echo $sql;
-        $conn->exec($sql);
+    //insert content of new posts to database
+    $sql="INSERT INTO `Post` (user_id, content, pic) Values (".$userid.",'".$des."','".$file."')";
+    $conn->exec($sql);
+    
+    $destination= '/Applications/MAMP/htdocs/PhotoApp/pics/';
+    $filepath= $destination.$_FILES['img']['name'];
+    move_uploaded_file($_FILES['img']['tmp_name'], $filepath);
         
-        //var_dump($_FILES);
-        $destination= '/Applications/MAMP/htdocs/PhotoApp/pics/';
-        $filepath= $destination.$_FILES['img']['name'];
-        move_uploaded_file($_FILES['img']['tmp_name'], $filepath);
-
-        echo "<h2> Post Uploaded Successfully!</h2><br><br>";
-        echo "<a href='user.php'> Back to user page </a>";
-        
-        
-    }catch(PDOException $e) {
-        echo "Connection failed: " . $e->getMessage();
-      };
-
 ?>

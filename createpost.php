@@ -9,6 +9,6 @@
     <p>Upload images: </p><br>
     <input type='file' name='img' require>
     <p>Add description: </p><br>
-    <input type='text' name='des' class='block'>
+    <input type='text' name='description' class='block'>
     <br><input type='submit' value='GO!'>
 </form>

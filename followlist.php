@@ -1,74 +1,38 @@
 <!DOCTYPE html>
 <head><link rel="stylesheet" href="style.css"></head>
 <?php
+    session_start();
     require('nav.php');
-    try{
-        $conn= new PDO('mysql:host=localhost; dbname=Insta', 'root', 'root');
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    require('database.php');
+    $un= $_SESSION['un'];
+    require('fetchuserid.php');
+    $display='fol';
 
-        }catch(PDOException $e){
-            echo "Error: ". $e;
-        }
+    //fetch and display list of people that the current user follows
+    echo "<h2>Following</h2><hr>";
+    $loc='followlist';
 
+    $followingquery= $conn -> query('SELECT * FROM `Followers` WHERE follower_id LIKE '.$userid);
+    $following= $followingquery -> fetchAll();
+    
+    foreach($following as $row){
+        $targetid= $row["following_id"];
+        $status=1;
+        include('userdisplay.php');
+    }
+    
+    //fetch and display list of people that follow the current user
+    echo "<hr><h2>Followers</h2><hr>";
 
-        session_start();
-        $un= $_SESSION['un'];
-        $search="SELECT * FROM `User` WHERE username LIKE '".$un."'";
-        $st= $conn -> prepare($search);
-        $st -> execute();
-        $account= $st->fetch();
-        $userid=$account['user_id'];
-        //echo $userid;
+    $followerquery= $conn -> query('SELECT * FROM `Followers` WHERE following_id LIKE '.$userid);
+    $follower= $followerquery -> fetchAll();
 
-        echo "<h2>Following</h2><hr>";
-        $following='SELECT * FROM `Followers` WHERE follower_id LIKE '.$userid;
-        $st= $conn -> prepare($following);
-        $st -> execute();
-        $datafollowing= $st -> fetchAll();
-        //var_dump($datafollowing);
+    foreach ($follower as $row){
         
-        foreach($datafollowing as $row){
-            
-            $targetid= $row["following_id"];
-
-            $display= 'SELECT * FROM `User` WHERE user_id LIKE '.$targetid;
-            $st= $conn -> prepare($display);
-            $st -> execute();
-            $displayacc= $st->fetch();
-
-            $username= $displayacc["username"];
-            $profile= $displayacc['profile'];
-            echo "<br><div class='dotted'><img src='pics/$profile' width='50'>
-                <br><p>$username</p>
-                <br><p><a href='searchuser.php?un=$name'>posts</a>
-                <a href='remove.php?following=$targetid&follower=$userid'>remove</a><br><br>
-                </div>";
-        }
-        echo "<br><br><hr><h2>Followers</h2><hr>";
-
-        $follower= 'SELECT * FROM `Followers` WHERE following_id LIKE '.$userid;
-        $st= $conn -> prepare($follower);
-        $st -> execute();
-        $data= $st -> fetchAll();
-
-
-        foreach ($data as $row){
-            
-            $followerid= $row['follower_id'];
-
-            $display= 'SELECT * FROM `User` WHERE user_id LIKE '.$followerid;
-            $st= $conn -> prepare($display);
-            $st -> execute();
-            $displayacc= $st->fetch();
-
-            $username= $displayacc["username"];
-            $profile= $displayacc['profile'];
-            echo "<br><div class='dotted'><img src='pics/$profile' width='50'>
-                <p>$username</p>
-                <br><br><p><a href='searchuser.php?un=$name'>posts</a>
-                <a href='remove.php?following=$userid&follower=$followerid'>remove</a><br><br>
-                </div>";
-        }
+        $targetid= $row['follower_id'];
+        $status=2;
+        include('userdisplay.php');
+    }
 
 
 
