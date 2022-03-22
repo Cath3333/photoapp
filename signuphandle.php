@@ -24,7 +24,7 @@
         $_SESSION['un']=$un;
         $_SESSION['em']=$em;
         echo "<h2> Signed up Successfully!</h2>
-              <br><br>
+              <br>
               <a href='user.php'> Begin your tomato journey </a>";
     
     }
