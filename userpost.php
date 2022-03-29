@@ -24,7 +24,7 @@
     $checkfollow= $checkfollowquery -> fetch();
 
     //display profile pic
-    echo "<img src='pics/".$postprofile."'width='150'><h2>".$postname."'s posts</h2>";
+    echo "<img src='".$postprofile."'width='150'><h2>".$postname."'s posts</h2>";
     if ($checkfollow){
         echo "<a href='followhandle.php?fol=1&target=$postname&user=$userid'>unfollow</a>";
     }
