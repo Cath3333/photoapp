@@ -14,7 +14,7 @@
     $profilequery= $conn -> query('SELECT profile FROM `User` WHERE user_id LIKE '.$userid);
     $profile= $profilequery->fetch();
     $profile= $profile['profile'];
-    echo "<img src='pics/".$profile."'width='150'><br>";
+    echo "<img src='".$profile."'width='150'><br>";
 
     //nav bar goes after username and profile pic 
     require('nav.php');
