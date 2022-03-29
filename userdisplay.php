@@ -11,7 +11,7 @@
     foreach ($targets as $target){
         $targetname= $target["username"];
         $profile= $target['profile'];
-        echo "<br><div class='dotted'><img src='pics/$profile' width='50'>
+        echo "<br><div class='dotted'><img src='$profile' width='50'>
             <br><p>$targetname</p>
             <br><p><a href='userpost.php?un=$targetname'>posts</a>";
         if ($display=='fol'){

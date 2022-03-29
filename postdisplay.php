@@ -12,7 +12,7 @@
         
         
         echo "<hr>
-            <img src='pics/".$pic."'width='400'><br><br>
+            <img src='".$pic."'width='400'><br><br>
             <a href='userpost.php?un=$postername' >posted by : $postername</a><br><br>
             <p class='content'>$content</p>
             <p class='date'>$date</p><br>";

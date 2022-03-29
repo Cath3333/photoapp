@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <head><link rel="stylesheet" href="style.css"></head>
+<script src="https://app.simplefileupload.com/buckets/07da64324ebe0c7fa17f215024d6cdf2.js"></script>
 <h2><img class='noborder' src='pics/usertop.png' alt='tomato' width='300' height="200" ></h2>
 <?php
     session_start();
@@ -31,7 +32,7 @@
 <form action='profileedit.php' method='post' enctype='multipart/form-data'>
     <div> Edit Profile </div>
     <p> Upload profile pic here: </p><br>
-    <input type='file' name='pp' accept='image/png, image/jpeg'> 
+    <input type='file' name='pp' accept='image/png, image/jpeg'> <br><br>
     <p> Update or add your bio: </p><br>
     <input type='text' name='bio'>
     <br><input type='submit' value='GO!'>
