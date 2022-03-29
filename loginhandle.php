@@ -8,7 +8,6 @@
     $unquery= $conn -> query("SELECT * FROM `User` WHERE username LIKE '".$_POST['unem']."'");
     $account= $unquery -> fetch();
     $success=0;
-    echo password_verify($_POST['pw'], $account['password']);
 
     if ($account AND password_verify($_POST['pw'], $account['password'])){
         $success=1; }
